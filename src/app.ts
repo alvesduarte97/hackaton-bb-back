@@ -54,7 +54,7 @@ app.get('/get-location', async (req, res) => {
   res.send(doc.data());
 });
 
-const port = 3000;
+const port = parseInt(process.env.PORT) || 3000;
 app.listen(port, () => {
   return console.log(`Express is listening at http://localhost:${port}`);
 });
