@@ -28,6 +28,12 @@ app.get('/upsert-location-status', async (req, res) => {
   res.send('Status updated successfully');
 });
 
+app.get('/get-location', async (req, res) => {
+  const locationId = req.query.location as string;
+  const doc = await docRefBoxLocation.doc(locationId).get();
+  res.send(doc.data());
+});
+
 app.listen(port, () => {
   return console.log(`Express is listening at http://localhost:${port}`);
 });
