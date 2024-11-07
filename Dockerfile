@@ -10,7 +10,6 @@ COPY . .
 
 # WORKDIR /usr/src/server
 
-ENV PORT 8080
 
 # Install production dependencies.
 RUN npm ci 
