@@ -12,16 +12,20 @@ initializeApp({
 
 const db = getFirestore();
 
-const docRef = db.collection('users').doc('alovelace');
-
-await docRef.set({
-  first: 'Ada',
-  last: 'Lovelace',
-  born: 1815
-});
+const docRefBoxLocation = db.collection('locations')
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
+});
+
+app.get('/upsert-location-status', async (req, res) => {
+  const status = req.query.status as string;
+  const locationId = req.query.location as string;
+  // http://localhost:3000/upsert-location-status?status=full&location=123132
+  await docRefBoxLocation.doc(locationId).set({
+    status: status,
+  });
+  res.send('Status updated successfully');
 });
 
 app.listen(port, () => {
