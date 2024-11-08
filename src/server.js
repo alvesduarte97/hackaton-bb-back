@@ -11,7 +11,7 @@ const port = parseInt(process.env.PORT) || 3000;
 app.use(cors())
 app.use(express.json())
 
-if(process.env.ENV && process.env.ENV != 'prd'){
+if(process.env.ENV && process.env.ENV == 'prd'){
   initializeApp();
 }else {
   const serviceAccount = require('./resources/firebase-key.json');
