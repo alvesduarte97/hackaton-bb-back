@@ -47,7 +47,7 @@ app.get('/update-location-status/:imei/:level/:battery', async (req, res) => {
   res.send('Collection box updated successfully');
 });
 
-app.get('/get-location', async (req, res) => {
+app.get('/get-collection-box/:imei', async (req, res) => {
   const { imei } = req.params;
   const doc = await docRefCollectionBoxs.where('IMEI', '==', imei).get();
   res.send(doc.data());
