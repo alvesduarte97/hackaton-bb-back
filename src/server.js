@@ -22,29 +22,34 @@ initializeApp();
 
 const db = getFirestore();
 
-const docRefBoxLocation = db.collection('locations')
+const docRefCollectionBoxs = db.collection('collectionBoxs')
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-app.get('/upsert-location-status/:imei/:ultrassonic', async (req, res) => {
-  console.log("EXECUTANDO UPSERT")
-const ultrassonic = req.params.ultrassonic;
-const imei = req.params.imei;
-// http://localhost:3000/upsert-location-status?status=full&location=123132
-  const status =  Number(ultrassonic) <= 10 ? 'full' : 'empty'
+app.get('/update-location-status/:imei/:level/:battery', async (req, res) => {
+  console.log("EXECUTANDO update")
+  const { imei, level, battery } = req.params;
+  // const status =  Number(level) <= 10 ? 'full' : 'empty'
 
-await docRefBoxLocation.doc(imei).set({
-  status: status,
-});
+  const querySnapshot = await docRefCollectionBoxs.where('IMEI', '==', imei).get();
 
-res.send('Status updated successfully');
+  if (querySnapshot.empty) {
+    return res.status(404).send('Item não encontrado');
+  }
+
+  const doc = querySnapshot.docs[0];
+  const docId = doc.id;
+
+  await docRefCollectionBoxs.doc(docId).update({ imei, level, battery });
+
+  res.send('Collection box updated successfully');
 });
 
 app.get('/get-location', async (req, res) => {
-  const locationId = req.query.location;
-  const doc = await docRefBoxLocation.doc(locationId).get();
+  const { imei } = req.params;
+  const doc = await docRefCollectionBoxs.where('IMEI', '==', imei).get();
   res.send(doc.data());
 });
 
