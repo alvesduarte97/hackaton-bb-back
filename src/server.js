@@ -49,7 +49,13 @@ app.get('/update-location-status/:imei/:level/:battery', async (req, res) => {
 
 app.get('/get-collection-box/:imei', async (req, res) => {
   const { imei } = req.params;
-  const doc = await docRefCollectionBoxs.where('IMEI', '==', imei).get();
+  const querySnapshot = await docRefCollectionBoxs.where('IMEI', '==', imei).get();
+  
+  if (querySnapshot.empty) {
+    return res.status(404).send('Item não encontrado');
+  }
+
+  const doc = querySnapshot.docs[0];
   res.send(doc.data());
 });
 
