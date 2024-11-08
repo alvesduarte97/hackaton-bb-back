@@ -41,7 +41,7 @@ app.get('/update-location-status/:imei/:level/:battery', async (req, res) => {
 
   const doc = querySnapshot.docs[0];
   const docId = doc.id;
-  const boxHeight = doc.height;
+  const boxHeight = doc.data().height;
 
   const boxLevel = level / boxHeight * 100;
 
