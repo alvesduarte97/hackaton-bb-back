@@ -8,6 +8,8 @@ import {  cert, initializeApp, ServiceAccount } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import serviceAccount from './resources/firebase-key.json' with { type: "json" };
 
+const port = 3000;
+
 if(process.env.GOOGLE_APPLICATION_CREDENTIALS && process.env.GOOGLE_APPLICATION_CREDENTIALS != ''){
   initializeApp();
 }else {
@@ -54,7 +56,6 @@ app.get('/get-location', async (req, res) => {
   res.send(doc.data());
 });
 
-const port = 8080;
 app.listen(port, () => {
   return console.log(`Express is listening at http://localhost:${port}`);
 });
