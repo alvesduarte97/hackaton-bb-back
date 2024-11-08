@@ -8,17 +8,17 @@ import {  cert, initializeApp, ServiceAccount } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import serviceAccount from './resources/firebase-key.json' with { type: "json" };
 
-if(process.env.GOOGLE_APPLICATION_CREDENTIALS && process.env.GOOGLE_APPLICATION_CREDENTIALS != ''){
-  initializeApp();
-}else {
-  initializeApp({
-    credential: cert(serviceAccount as ServiceAccount)
-  });
-}
+// if(process.env.GOOGLE_APPLICATION_CREDENTIALS && process.env.GOOGLE_APPLICATION_CREDENTIALS != ''){
+//   initializeApp();
+// }else {
+//   initializeApp({
+//     credential: cert(serviceAccount as ServiceAccount)
+//   });
+// }
 
-const db = getFirestore();
+// const db = getFirestore();
 
-const docRefBoxLocation = db.collection('locations')
+// const docRefBoxLocation = db.collection('locations')
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
@@ -31,9 +31,9 @@ app.get('/upsert-location-status/:imei/:ultrassonic', async (req, res) => {
   // http://localhost:3000/upsert-location-status?status=full&location=123132
     const status =  Number(ultrassonic) <= 10 ? 'full' : 'empty'
 
-  await docRefBoxLocation.doc(imei).set({
-    status: status,
-  });
+  // await docRefBoxLocation.doc(imei).set({
+  //   status: status,
+  // });
 
   if (status == 'full'){
     console.log("ENVIANDO EMAIL")
@@ -50,8 +50,8 @@ app.get('/upsert-location-status/:imei/:ultrassonic', async (req, res) => {
 
 app.get('/get-location', async (req, res) => {
   const locationId = req.query.location as string;
-  const doc = await docRefBoxLocation.doc(locationId).get();
-  res.send(doc.data());
+  // const doc = await docRefBoxLocation.doc(locationId).get();
+  // res.send(doc.data());
 });
 
 const port = 8080;

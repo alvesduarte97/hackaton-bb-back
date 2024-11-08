@@ -10,10 +10,12 @@ COPY . .
 
 # WORKDIR /usr/src/server
 
+ENV PORT 8080
 
 # Install production dependencies.
 RUN npm ci 
 
 EXPOSE 8080
+# EXPOSE 3000
 
 CMD ["npm", "start"]
